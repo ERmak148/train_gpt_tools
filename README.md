@@ -1,4 +1,4 @@
-Train GET tools, this collection of functions was originally created for personal use, but still I decided to post it online. There are 5 functions in the collection:
+Train GPT tools, this collection of functions was originally created for personal use, but still I decided to post it online. There are 5 functions in the collection:
 1. train_model trains and saves the model
 Parameters: base_model, block_size=512, fp_of_train_data="text.txt ", fp_to_save="pretrained", lr=0.00002, epochs=5, optimc="AdamW"
 

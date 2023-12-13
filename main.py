@@ -34,8 +34,6 @@ def train_model(base_model, block_size=512, fp_of_train_data="text.txt", fp_to_s
             loss.backward()
             optim.step()
             print(f"Batch {b + 1}/{dataset[:].size()[0]}. Loss: {loss.item()}")
-            model.save_pretrained(fp_to_save)
-            tokenizer.save_pretrained(fp_to_save)
         print("-" * 89)
         print(f"Epoch {i}/{epochs}. Loss: {loss.item()}")
         print("-" * 89)
@@ -99,4 +97,4 @@ def create_custom_tokenizer(name, ctx, max_vocab_size, min_frequency, fp_train_f
         json.dump(tokenizer_config, file, indent=4)
     print("Tokenizer created")
 
-train_model("ai-forever/rugpt3large_based_on_gpt2", 128, epochs=20)
+train_model("pretrained", 64, epochs=5)

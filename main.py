@@ -23,9 +23,9 @@ def train_model(base_model, block_size=512, fp_of_train_data="text.txt", fp_to_s
     }
     optim = optims[optimc](model.parameters(), lr=lr)
     criterion = torch.nn.CrossEntropyLoss()
-
+    model.train()
     for i in range(epochs):
-        for i, text in enumerate(dataloader):
+        for b, text in enumerate(dataloader):
             optim.zero_grad()
             input_text = torch.clone(text)[0][:-1][None, :]
             out = model(input_text)
@@ -33,7 +33,7 @@ def train_model(base_model, block_size=512, fp_of_train_data="text.txt", fp_to_s
             loss = criterion(out.logits[0], target)
             loss.backward()
             optim.step()
-            print(f"Batch {i + 1}/{dataset[:].size()[0]}. Loss: {loss.item()}")
+            print(f"Batch {b + 1}/{dataset[:].size()[0]}. Loss: {loss.item()}")
             model.save_pretrained(fp_to_save)
         print("-" * 89)
         print(f"Epoch {i}/{epochs}. Loss: {loss.item()}")

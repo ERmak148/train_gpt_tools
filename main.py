@@ -39,7 +39,7 @@ def train_model(base_model, block_size=512, fp_of_train_data="text.txt", fp_to_s
         print(f"Epoch {i}/{epochs}. Loss: {loss.item()}")
         print("-" * 89)
         model.save_pretrained(fp_to_save)
-        print("DONE")
+    print("DONE")
 
 
 def model_generate(model, text, max_new_tokens, no_repeat_ngram_size, do_sample: bool, **kwargs):

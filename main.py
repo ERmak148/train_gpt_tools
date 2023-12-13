@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
 import torch.nn
-from transformers import TextDataset, GPT2Tokenizer, GPT2LMHeadModel
+from transformers import TextDataset, GPT2Tokenizer, GPT2LMHeadModel, GPT2Config
 
 
 def train_model(base_model, block_size=512, fp_of_train_data="text.txt", fp_to_save="pretrained", lr=0.00002, epochs=5, optimc="AdamW"):
@@ -57,3 +57,17 @@ def model_generate(model, text, max_new_tokens, no_repeat_ngram_size, do_sample:
         return output
 
 
+def create_custom_model_and_train(name, tokenizer, n_ctx, n_embd, n_layer, n_head, block_size=512, fp_of_train_data="text.txt", fp_to_save="pretrained", lr=0.00002, epochs=5, optimc="AdamW"):
+    custom_config = GPT2Config(
+        vocab_size=len(tokenizer),   # размер словаря
+        n_positions=n_ctx,   # максимальное количество позиций
+        n_ctx=n_ctx,         # контекст
+        n_embd=n_embd,         # размер эмбеддинга
+        n_layer=n_layer,         # количество слоев
+        n_head=n_head         # количество голов в механизме внимания
+    )
+    model = GPT2LMHeadModel(config=custom_config)
+    model.resize_token_embeddings(len(tokenizer))
+    model.save_pretrained(name)
+    tokenizer.save_pretrained(name)
+    train_model(name, block_size, fp_of_train_data, fp_to_save, lr, epochs, optimc)

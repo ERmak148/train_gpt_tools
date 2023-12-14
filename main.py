@@ -4,6 +4,8 @@ import torch.nn
 from transformers import TextDataset, GPT2Tokenizer, GPT2LMHeadModel, GPT2Config, DataCollatorForLanguageModeling
 import json
 from tokenizers import ByteLevelBPETokenizer
+
+
 class LineByLineTextDataset(Dataset):
     def __init__(self, file_path, tokenizer: GPT2Tokenizer):
         self.file_path = file_path
@@ -22,6 +24,8 @@ class LineByLineTextDataset(Dataset):
         line = self.lines[idx]
 
         return line
+
+
 def train_model(base_model, block_size=512, fp_of_train_data="text.txt", fp_to_save="pretrained", lr=0.00002, epochs=5, optimc="AdamW", dataset_type = "default"):
     if dataset_type not in ("default", "linebyline"):
         raise ValueError("the `dataset_type` argument must be `default` or `linebyline`")
